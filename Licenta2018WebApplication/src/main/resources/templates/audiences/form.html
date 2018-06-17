@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Handling Form Submission</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+</head>
+<body>
+	<div class="container">
+		<h1>Audience Form</h1>
+		<div th:fragment="audiencesform(url)">
+			<form action="#" th:action="${url}" th:object="${audience}"
+				method="post">
+				<div>
+					<input type="hidden" th:field="*{id}" />
+					<p><textarea  rows="10" class="form-control" placeholder="Motivul pentru solicitarea audientei" th:field="*{reason}" ></textarea></p>	
+					<div style="display: inline-block">
+				        <label for="start"><i class='glyphicon glyphicon-calendar'></i> Check-in:</label>				        
+				        <input type="text" class="form-control" id="start" th:field="*{issueDate}"> </input>
+				    </div>
+					<p>
+						
+					</p>
+					<p>
+						<input type="hidden" th:field="*{user}" />
+					</p>
+				</div>
+				<p>
+					<input class="btn btn-primary" type="submit" value="Submit" /> <input
+						class="btn btn-default" type="reset" value="Reset" />
+				</p>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
+
