@@ -25,6 +25,16 @@ public class Request{
 	private Date approvalDate;
 	private boolean approvalStatus;
 	
+	private String numeSolicitant;
+	private String categorieConstructie;
+	private double suprafataTeren;
+	private String adresaConstructie;
+	private String numeProiectant;
+	private double valoareLucrari;
+	private int nrAutorizatie;
+	private String utilitati;
+	private int codCaen;
+	
 	@ManyToOne
 	private User user;
 
@@ -74,6 +84,78 @@ public class Request{
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getNumeSolicitant() {
+		return numeSolicitant;
+	}
+
+	public void setNumeSolicitant(String numeSolicitant) {
+		this.numeSolicitant = numeSolicitant;
+	}
+
+	public String getCategorieConstructie() {
+		return categorieConstructie;
+	}
+
+	public void setCategorieConstructie(String categorieConstructie) {
+		this.categorieConstructie = categorieConstructie;
+	}
+
+	public double getSuprafataTeren() {
+		return suprafataTeren;
+	}
+
+	public void setSuprafataTeren(double suprafataTeren) {
+		this.suprafataTeren = suprafataTeren;
+	}
+
+	public String getAdresaConstructie() {
+		return adresaConstructie;
+	}
+
+	public void setAdresaConstructie(String adresaConstructie) {
+		this.adresaConstructie = adresaConstructie;
+	}
+
+	public String getNumeProiectant() {
+		return numeProiectant;
+	}
+
+	public void setNumeProiectant(String numeProiectant) {
+		this.numeProiectant = numeProiectant;
+	}
+
+	public double getValoareLucrari() {
+		return valoareLucrari;
+	}
+
+	public void setValoareLucrari(double valoareLucrari) {
+		this.valoareLucrari = valoareLucrari;
+	}
+
+	public int getNrAutorizatie() {
+		return nrAutorizatie;
+	}
+
+	public void setNrAutorizatie(int nrAutorizatie) {
+		this.nrAutorizatie = nrAutorizatie;
+	}
+
+	public String getUtilitati() {
+		return utilitati;
+	}
+
+	public void setUtilitati(String utilitati) {
+		this.utilitati = utilitati;
+	}
+
+	public int getCodCaen() {
+		return codCaen;
+	}
+
+	public void setCodCaen(int codCaen) {
+		this.codCaen = codCaen;
 	}
 
 }

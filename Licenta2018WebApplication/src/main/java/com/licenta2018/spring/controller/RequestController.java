@@ -1,8 +1,17 @@
 package com.licenta2018.spring.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -11,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.licenta2018.spring.model.CustomUserDetail;
 import com.licenta2018.spring.model.Request;
@@ -18,7 +28,7 @@ import com.licenta2018.spring.model.User;
 import com.licenta2018.spring.repository.RequestRepository;
 import com.licenta2018.spring.repository.RequestTypeRepository;
 import com.licenta2018.spring.repository.UserRepository;
-import com.licenta2018.spring.security.AllowedForConstructionAuthorize;
+import com.licenta2018.spring.utility.PdfRequestView;
 import com.licenta2018.spring.utility.RequestNotFoundException;
 
 @Controller
@@ -94,6 +104,24 @@ public class RequestController {
 		model.addAttribute("requests", requests.findAll());
 		return "redirect:/users/me";
 	}
+	
+	@RequestMapping(value = "{id}/download/request", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> citiesReport(@PathVariable("id") long id) throws IOException {
+
+        Request request = requests.findOne(id);
+
+        ByteArrayInputStream bis = PdfRequestView.citiesReport(getCurrentUser(), request);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "inline; filename=request.pdf");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(bis));
+    }
     
 	private User getCurrentUser(){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();    	    

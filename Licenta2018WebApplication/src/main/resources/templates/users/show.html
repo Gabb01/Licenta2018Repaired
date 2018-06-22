@@ -45,6 +45,8 @@
 								<div th:if="${req.approvalStatus}" th:each="req : ${requests}">
 									<a th:text="${req.id}" th:href="@{|/requests/${req.id}|}"></a>
 									<span th:text="${req.approvalStatus}"></span>
+									<a sec:authorize="hasAnyRole('ROLE_USER')" class="pull-right" th:href="@{|/requests/${req.id}/download/request|}"><i
+										class="glyphicon glyphicon-download"></i></a>
 									<a class="pull-right" th:href="@{|/requests/${req.id}/remove|}"><i
 										class="glyphicon glyphicon-trash"></i></a>
 								</div>

@@ -16,19 +16,78 @@
 				<div>
 					<input type="hidden" th:field="*{id}" />
 					<p>
-						<label>Request Type</label> <select class="form-control"
-							th:field="*{type}">
+						<label>Tip cerere de autorizatie</label> 
+						<select class="form-control" th:field="*{type}" onchange="check(this)">
 							<option th:each="c : ${requestTypes}" th:text="${c.description}"
 								th:value="${c.id}"></option>
 						</select>
+						<div id="constructii">
+							<label>Nume solicitant</label>
+							<p><textarea  rows="1" class="form-control" placeholder="Introduceti nume solicitant" th:field="*{numeSolicitant}" ></textarea></p>	
+							<label>Categorie constructie</label>
+							<p><textarea  rows="1" class="form-control" placeholder="Introduceti categoria constructiei" th:field="*{categorieConstructie}" ></textarea></p>								
+							<label>Suprafata terenului</label>
+							<p><textarea  rows="1" class="form-control" placeholder="Introduceti suprafata terenului" th:field="*{suprafataTeren}" ></textarea></p>								
+							<label>Adresa constructiei</label>
+							<p><textarea  rows="1" class="form-control" placeholder="Introduceti adresa constructiei" th:field="*{adresaConstructie}" ></textarea></p>								
+							<label>Denumire firma proiectanta</label>
+							<p><textarea  rows="1" class="form-control" placeholder="Introduceti numele proiectantului" th:field="*{numeProiectant}" ></textarea></p>								
+							<label>Valoarea lucrarilor</label>
+							<p><textarea  rows="1" class="form-control" placeholder="Introduceti valoarea lucrarilor" th:field="*{valoareLucrari}" ></textarea></p>															
+						</div>
+						<div id="mediu" style="display: none;">
+							<label>Nume solicitant</label>
+							<p><textarea  rows="1" class="form-control" placeholder="Introduceti nume solicitant" th:field="*{numeSolicitant}" ></textarea></p>	
+							<label>Cod CAEN</label>
+							<p><textarea  rows="1" class="form-control" placeholder="Introduceti codul CAEN al companiei" th:field="*{codCaen}" ></textarea></p>															
+							<label>Obiect activitate</label>
+							<p><textarea  rows="1" class="form-control" placeholder="Introduceti obiectul de activitate" th:field="*{categorieConstructie}" ></textarea></p>								
+							<label>Adresa societatii comerciale</label>
+							<p><textarea  rows="1" class="form-control" placeholder="Introduceti adresa societatii comerciale" th:field="*{adresaConstructie}" ></textarea></p>														</div>
+						<div id="functionare" style="display: none;">
+							<label>Denumirea firmei</label>
+							<p><textarea  rows="1" class="form-control" placeholder="Introduceti denumirea firmei" th:field="*{numeSolicitant}" ></textarea></p>	
+							<label>Obiect activitate</label>
+							<p><textarea  rows="1" class="form-control" placeholder="Introduceti categoria constructiei" th:field="*{categorieConstructie}" ></textarea></p>								
+							<label>Suprafata terenului</label>
+							<p><textarea  rows="1" class="form-control" placeholder="Introduceti suprafata terenului" th:field="*{suprafataTeren}" ></textarea></p>								
+							<label>Adresa terenului</label>
+							<p><textarea  rows="1" class="form-control" placeholder="Introduceti adresa constructiei" th:field="*{adresaConstructie}" ></textarea></p>								
+							<label>Asigurarea utilitatilor</label>
+							<p><textarea  rows="1" class="form-control" placeholder="Introduceti numele proiectantului" th:field="*{utilitati}" ></textarea></p>								
+							<label>Autorizatie de securitate la incendiu</label>
+							<p><textarea  rows="1" class="form-control" placeholder="Introduceti numarul autorizatiei" th:field="*{nrAutorizatie}" ></textarea></p>															
+						</div>
+						<script>
+							function check(idCerere)
+							{
+						        valoareSelectata = idCerere.value;
+						        if(valoareSelectata == 1){
+						            document.getElementById("constructii").style.display = "";
+						            document.getElementById("mediu").style.display = "none";
+						            document.getElementById("functionare").style.display = "none";
+						        }
+						        else if(valoareSelectata == 2)
+						        {
+						        	document.getElementById("constructii").style.display = "none";
+						            document.getElementById("mediu").style.display = "";
+						            document.getElementById("functionare").style.display = "none";
+						        }
+						        else{
+						        	document.getElementById("constructii").style.display = "none";
+						            document.getElementById("mediu").style.display = "none";
+						            document.getElementById("functionare").style.display = "";
+						        }
+							}
+						</script>
 					</p>
 					<p>
 						<input type="hidden" th:field="*{user}" />
 					</p>
 				</div>
 				<p>
-					<input class="btn btn-primary" type="submit" value="Submit" /> <input
-						class="btn btn-default" type="reset" value="Reset" />
+					<input class="btn btn-primary" type="submit" value="Trimite" /> 
+					<input class="btn btn-default" type="reset" value="Resetare campuri" />
 				</p>
 			</form>
 		</div>
