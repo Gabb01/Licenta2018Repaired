@@ -1,18 +1,9 @@
-#map {
-    width: 555px;
-    height: 400px;
-    background-color: #CCC;
-  }
-  
-.starshome{
-	text-align: center;
-	margin-bottom: 10px;
+html,body {
+	background-color: #ebffea;
 }
 
-.searchbar {
-	text-align: center;
+#welcome-image
+{
+	height:75%;
 }
 
-.seehotel {
-	text-align: center;
-}

@@ -12,22 +12,13 @@
 	<div th:include="fragments/header"></div>
 
 	<div class="container">
-		<div class="page-header">
-			<h1>Requests List</h1>
-		</div>
-		
 		<div th:if="${#lists.isEmpty(requests)}">
 			<p><i>No requests to show</i></p>
 		</div>
 		
-		<div class="list-group" th:each="request : ${requests}">
-			<a class="list-group-item" th:if="${request.id}" th:text="${request.approvalStatus}"
-				th:href="@{|/requests/${request.id}|}"></a>
+		<div class="list-group">
+			Cererea a fost inregistrata cu succes !
 		</div>
-		
-		<p sec:authorize="hasAnyRole('HOTEL_MANAGER')">
-			<a class="btn btn-primary" href="/requests/new">Add a Hotel</a>
-		</p>
 	</div>
 </body>
 </html>

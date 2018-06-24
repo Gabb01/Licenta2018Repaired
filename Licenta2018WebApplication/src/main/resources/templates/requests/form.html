@@ -6,6 +6,7 @@
 <link
 	href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.1/css/bootstrap.min.css"
 	rel="stylesheet" media="screen" />
+	<link rel="stylesheet" type="text/css" th:href="@{|/css/general.css|}" />
 </head>
 <body>
 	<div class="container">
@@ -22,7 +23,7 @@
 								th:value="${c.id}"></option>
 						</select>
 						<div id="constructii">
-							<label>Nume solicitant</label>
+							<label>Denumire firma</label>
 							<p><textarea  rows="1" class="form-control" placeholder="Introduceti nume solicitant" th:field="*{numeSolicitant}" ></textarea></p>	
 							<label>Categorie constructie</label>
 							<p><textarea  rows="1" class="form-control" placeholder="Introduceti categoria constructiei" th:field="*{categorieConstructie}" ></textarea></p>								
@@ -36,7 +37,7 @@
 							<p><textarea  rows="1" class="form-control" placeholder="Introduceti valoarea lucrarilor" th:field="*{valoareLucrari}" ></textarea></p>															
 						</div>
 						<div id="mediu" style="display: none;">
-							<label>Nume solicitant</label>
+							<label>Denumire firma</label>
 							<p><textarea  rows="1" class="form-control" placeholder="Introduceti nume solicitant" th:field="*{numeSolicitant}" ></textarea></p>	
 							<label>Cod CAEN</label>
 							<p><textarea  rows="1" class="form-control" placeholder="Introduceti codul CAEN al companiei" th:field="*{codCaen}" ></textarea></p>															

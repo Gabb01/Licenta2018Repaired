@@ -7,11 +7,14 @@
 	href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.1/css/bootstrap.min.css"
 	rel="stylesheet" media="screen" />
 <script th:src="@{|/js/jquery.js|}"></script>
+<link rel="stylesheet" type="text/css" th:href="@{|/css/general.css|}" />
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	<style type="text/css">table tr th {
-  width: 18%;
-}</style>
+<style type="text/css">
+table tr th {
+	width: 18%;
+}
+</style>
 </head>
 <body>
 	<div th:include="fragments/header"></div>
@@ -22,10 +25,10 @@
 					th:text="${user.username}"></span></small>
 			</h1>
 			<h4>
-				<span th:if="${user.authority.role} == 'ROLE_USER'">Simple User</span>
+				<span th:if="${user.authority.role} == 'ROLE_USER'">Utilizator</span> 
 				<span th:if="${user.authority.role} == 'ROLE_SECRETARY'">Secretariat</span>
-				<span th:if="${user.authority.role} == 'ROLE_CONSTRUCTION_AUTHORIZE'">Departament constructii</span>
-				<span th:if="${user.authority.role} == 'ROLE_ENVIRONMENT_AUTHORIZE'">Departament mediu</span>
+				<span th:if="${user.authority.role} == 'ROLE_CONSTRUCTION_AUTHORIZE'">Departament constructii</span> 
+				<span th:if="${user.authority.role} == 'ROLE_ENVIRONMENT_AUTHORIZE'">Departament mediu</span> 
 				<span th:if="${user.authority.role} == 'ROLE_INFRASTRUCTURE'">Directia Economica</span>
 			</h4>
 		</div>
@@ -34,57 +37,88 @@
 			<div class="tabbable-line">
 				<ul class="nav nav-tabs nav-justified">
 					<li class="active"><a href="#tab_default_1" data-toggle="tab">
-							Requests</a></li>
-					<li><a sec:authorize="${#authorization.expression(T(com.licenta2018.spring.security.AllowedToSeeAudiences).condition)}" href="#tab_default_2" data-toggle="tab">Audience</a></li>					
+							Autorizatii</a></li>
+					<li><a
+						sec:authorize="${#authorization.expression(T(com.licenta2018.spring.security.AllowedToSeeAudiences).condition)}"
+						href="#tab_default_2" data-toggle="tab">Audiente</a></li>
 				</ul>
 				<div class="tab-content">
 					<div class="tab-pane active" id="tab_default_1">
 						<div class="col-md-6">
-							<h4><i class="glyphicon glyphicon-home"></i> Approved requests</h4>
+							<h4>
+								<i class="glyphicon glyphicon-home"></i> Autorizatii aprobate
+							</h4>
 							<div th:if="${!#sets.isEmpty(requests)}">
 								<table class="table">
 									<thead>
 										<tr>
 											<th>Numar cerere</th>
-											<th>Check-out</th>
-											<th>Hotel</th>
-											<th>Room Type</th>
-											<th>Room Number</th>
-											<th></th>
+											<th>Tip</th>
+											<th>Solicitant</th>
+											<th>Data crearii</th>
+											<th>Data aprobarii</th>
+											<th sec:authorize="hasAnyRole('ROLE_USER')">Descarcare</th>
+											<th>Stergere</th>
+										</tr>
+										<tr th:if="${req.approvalStatus}" th:each="req : ${requests}">
+											<td>#<span th:text="${req.id}"></span></td>
+											<td><a th:text="${req.type.description}"
+												th:href="@{|/requests/${req.id}|}"></a></td>
+											<td th:text="${req.numeSolicitant}"></td>
+											<td th:text="${req.issueDate}"></td>
+											<td th:text="${req.approvalDate}"></td>
+											<td><a sec:authorize="hasAnyRole('ROLE_USER')"
+												class="pull-right"
+												th:href="@{|/requests/${req.id}/download/request|}"><i
+													class="glyphicon glyphicon-download"></i></a></td>
+											<td><a 
+												th:href="@{|/requests/${req.id}/remove|}"><i
+													class="glyphicon glyphicon-trash"></i></a></td>
 										</tr>
 									</thead>
 								</table>
-								<div th:if="${req.approvalStatus}" th:each="req : ${requests}">
-									<a th:text="${req.id}" th:href="@{|/requests/${req.id}|}"></a>
-									<span th:text="${req.approvalStatus}"></span>
-									<a sec:authorize="hasAnyRole('ROLE_USER')" class="pull-right" th:href="@{|/requests/${req.id}/download/request|}"><i
-										class="glyphicon glyphicon-download"></i></a>
-									<a class="pull-right" th:href="@{|/requests/${req.id}/remove|}"><i
-										class="glyphicon glyphicon-trash"></i></a>
-								</div>
 							</div>
 							<p th:if="${#sets.isEmpty(requests)}">
-								<i>No requests approved</i>
+								<i>Nicio cerere aprobata</i>
 							</p>
-							
-							<h4><i class="glyphicon glyphicon-home"></i> Pending requests</h4>
+
+							<h4>
+								<i class="glyphicon glyphicon-home"></i> Cereri in asteptare
+							</h4>
 							<div th:if="${!#sets.isEmpty(requests)}">
-								<div th:if="${!req.approvalStatus}" th:each="req : ${requests}">
-									<a th:text="${req.id}" th:href="@{|/requests/${req.id}|}"></a>
-									<span th:text="${req.approvalStatus}"></span>
-									<a sec:authorize="!hasAnyRole('ROLE_USER')" class="pull-right" th:href="@{|/requests/${req.id}/approve|}"><i
-										class="glyphicon glyphicon-ok"></i></a> ·
-									<a class="pull-right" th:href="@{|/requests/${req.id}/remove|}"><i
-										class="glyphicon glyphicon-trash"></i></a>
-								</div>
+								<table class="table">
+									<thead>
+										<tr>
+											<th>Numar cerere</th>
+											<th>Tip</th>
+											<th>Solicitant</th>
+											<th>Data crearii</th>
+											<th sec:authorize="!hasAnyRole('ROLE_USER')">Aprobare</th>
+											<th>Stergere</th>
+										</tr>
+										<tr th:if="${!req.approvalStatus}" th:each="req : ${requests}">
+											<td>#<span th:text="${req.id}"></span></td>
+											<td><a th:text="${req.type.description}"
+												th:href="@{|/requests/${req.id}|}"></a></td>
+											<td th:text="${req.numeSolicitant}"></td>
+											<td th:text="${req.issueDate}"></td>
+											<td><a sec:authorize="!hasAnyRole('ROLE_USER')" th:href="@{|/requests/${req.id}/approve|}"><i
+													class="glyphicon glyphicon-ok"></i></a></td>
+											<td><a th:href="@{|/requests/${req.id}/remove|}"><i
+													class="glyphicon glyphicon-trash"></i></a></td>
+										</tr>
+									</thead>
+								</table>
 							</div>
 							<p th:if="${#sets.isEmpty(requests)}">
-								<i>No requests</i>
+								<i>Nicio cerere inregistrata</i>
 							</p>
 						</div>
 					</div>
-					<div class="tab-pane" id="tab_default_2">						
-						<h4><i class="glyphicon glyphicon-th-list"></i> Approved audiences</h4>
+					<div class="tab-pane" id="tab_default_2">
+						<h4>
+							<i class="glyphicon glyphicon-th-list"></i> Audiente aprobate
+						</h4>
 						<div th:if="${!#lists.isEmpty(audiences)}">
 							<table class="table">
 								<thead>
@@ -98,12 +132,14 @@
 									</tr>
 								</thead>
 							</table>
-						</div>										
+						</div>
 						<p th:if="${#lists.isEmpty(audiences)}">
 							<i>No audiences</i>
 						</p>
-						
-						<h4><i class="glyphicon glyphicon-th-list"></i> Pending audiences</h4>
+
+						<h4>
+							<i class="glyphicon glyphicon-th-list"></i> Solicitari in asteptare
+						</h4>
 						<div th:if="${!#lists.isEmpty(audiences)}">
 							<table class="table">
 								<thead>
@@ -117,9 +153,9 @@
 									</tr>
 								</thead>
 							</table>
-						</div>						
+						</div>
 						<p th:if="${#lists.isEmpty(audiences)}">
-							<i>No audiences</i>
+							<i>Nicio solicitare inregistrata</i>
 						</p>
 					</div>
 				</div>

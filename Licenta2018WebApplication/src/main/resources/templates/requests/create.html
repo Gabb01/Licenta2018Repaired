@@ -3,12 +3,13 @@
 <head> 
     <title>Create a new request</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen"/>    
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen"/>   
+    <link rel="stylesheet" type="text/css" th:href="@{|/css/general.css|}" /> 
 </head>
 <body>
 	<div th:include="fragments/header"></div>
 	<div class="container">
-		<div class="page-header"><h1>Create a request</h1></div>
+		<div class="page-header"><h1>Completeaza formularul selectand tipul autorizatiei</h1></div>
 		<div th:include="requests/form :: requestform(@{/requests/})"></div>	
 		<p><a th:href="@{|/|}">Back</a></p>	
     </div>

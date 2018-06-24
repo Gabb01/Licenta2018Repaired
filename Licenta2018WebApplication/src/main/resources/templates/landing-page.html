@@ -10,25 +10,13 @@
 </head>
 <body>
 	<div th:include="fragments/header"></div>
-
+	<div class="jumbotron" style="background-color: #ebffea">
+			<img id="welcome-image" src="/static/smart-city.jpg" class="img-responsive center-block" alt="Responsive image">
+	</div>
 	<div class="container">
-
 		<div class="page-header">
-			<h1>Welcome to City Hall</h1>
-		</div>
-		
-		<hr/>
-
-		<div>
-			<div class="col-md-4" th:each="request, hstat : ${requests}"
-				th:unless="${hstat.index > 2}">
-				<h3 align="center">
-					<span th:text="${request.id}"></span>
-					<span th:text="${request.issueDate}"></span>
-				</h3>
-			</div>
-		</div>
-
+			<h1 class="text-center">Bine ati venit pe platforma ePrimarie Iasi</h1>
+		</div>	
 	</div>
 
 </body>

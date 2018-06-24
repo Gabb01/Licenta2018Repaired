@@ -21,10 +21,10 @@
 		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		      <span sec:authorize="hasAnyRole('ROLE_USER')">
 			      <ul class="nav navbar-nav">
-			        <li th:if="${#httpServletRequest.remoteUser} != null"><a href="/requests/new">Create a new request</a></li>		          		        	       
+			        <li th:if="${#httpServletRequest.remoteUser} != null"><a href="/requests/new">Cereri pentru emiterea autorizatiei</a></li>		          		        	       
 			      </ul>
 			      <ul class="nav navbar-nav">
-			        <li th:if="${#httpServletRequest.remoteUser} != null"><a href="/audiences/new">Create a new audience</a></li>		          		        	       
+			        <li th:if="${#httpServletRequest.remoteUser} != null"><a href="/audiences/new">Solicita o audienta</a></li>		          		        	       
 			      </ul>
 		      </span>
 		      <ul class="nav navbar-nav navbar-right">	
@@ -34,8 +34,8 @@
 	    				<input class="btn btn-link navbar-btn" type="submit" value="Log out"></input>
 				  	</form>
 				  </li> 
-				  <li th:if="${#httpServletRequest.remoteUser} == null" ><a href="/users/new">Sign up</a></li> 
-		          <li th:if="${#httpServletRequest.remoteUser} == null" ><a href="/users/login">Log in</a></li>		        
+				  <li th:if="${#httpServletRequest.remoteUser} == null" ><a href="/users/new">Inregistrare</a></li> 
+		          <li th:if="${#httpServletRequest.remoteUser} == null" ><a href="/users/login">Logare</a></li>		        
 		      </ul>
 		      
 			</div><!-- /.navbar-collapse -->

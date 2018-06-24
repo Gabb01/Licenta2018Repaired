@@ -51,13 +51,6 @@ public class UserController {
 	@Autowired 
 	private CustomUserDetailsService customUserDetailsSvc;
 
-	// GET  /users 			- the list of users
-	@RequestMapping(method=RequestMethod.GET)
-	public String index(Model model) {
-		model.addAttribute("users", users.findAll());
-		return "users/index";
-	}
-
 	// GET  /users/new			- the form to fill the data for a new user
 	@RequestMapping(value="/new", method=RequestMethod.GET)
 	public String onCreateNewUser(Model model) {
@@ -93,18 +86,6 @@ public class UserController {
 	public String login(Model model) {
 		return "index";
 	}
-
-//	// GET  /users/{id} 		- the user with identifier {id}
-//	@RequestMapping(value="{id}", method=RequestMethod.GET) 
-//	@AllowedForManageUser
-//	public String showUserById(@PathVariable("id") long id, Model model) {
-//		User user = users.findOne(id);
-//		if( user == null )
-//			throw new UserNotFoundException();    	
-//		model.addAttribute("user", user);    
-//		model.addAttribute("requests", getUserRequests(user.getId()));   
-//		return "users/show";
-//	}
 
 	@RequestMapping(value="/me", method=RequestMethod.GET)
 	public String showActiveProfile(Model model) throws UserNotFoundException
