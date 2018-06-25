@@ -24,6 +24,7 @@ public class Request{
 	private Date issueDate;
 	private Date approvalDate;
 	private boolean approvalStatus;
+	private boolean rejected;
 	
 	private String numeSolicitant;
 	private String categorieConstructie;
@@ -156,6 +157,14 @@ public class Request{
 
 	public void setCodCaen(int codCaen) {
 		this.codCaen = codCaen;
+	}
+	
+	public boolean isRejected()
+	{
+		return rejected;
+	}
+	public void setReject(boolean b) {
+		this.rejected = b;
 	}
 
 }

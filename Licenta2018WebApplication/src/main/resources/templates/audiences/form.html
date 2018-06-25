@@ -15,12 +15,15 @@
 					<input type="hidden" th:field="*{id}" />
 					<p><textarea  rows="10" class="form-control" placeholder="Motivul pentru solicitarea audientei" th:field="*{reason}" ></textarea></p>	
 					<div style="display: inline-block">
-				        <label for="start"><i class='glyphicon glyphicon-calendar'></i> Check-in:</label>				        
+				        <label for="start"><i class='glyphicon glyphicon-calendar'></i> Selectati data dorita</label>				        
 				        <input type="text" class="form-control" id="start" th:field="*{issueDate}"> </input>
 				    </div>
-					<p>
-						
-					</p>
+				    <p>
+					<div style="display: inline-block">
+				        <label> Functionarul la care solicitati audienta</label>				        
+				        <p><input type="text" class="form-control" th:field="*{person}"> </input></p>
+				    </div>
+				    </p>
 					<p>
 						<input type="hidden" th:field="*{user}" />
 					</p>

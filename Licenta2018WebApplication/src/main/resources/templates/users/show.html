@@ -36,7 +36,7 @@ table tr th {
 		<div class="tabbable-panel">
 			<div class="tabbable-line">
 				<ul class="nav nav-tabs nav-justified">
-					<li class="active"><a href="#tab_default_1" data-toggle="tab">
+					<li class="active"><a sec:authorize="!hasAnyRole('ROLE_SECRETARY')"href="#tab_default_1" data-toggle="tab">
 							Autorizatii</a></li>
 					<li><a
 						sec:authorize="${#authorization.expression(T(com.licenta2018.spring.security.AllowedToSeeAudiences).condition)}"
@@ -94,6 +94,7 @@ table tr th {
 											<th>Solicitant</th>
 											<th>Data crearii</th>
 											<th sec:authorize="!hasAnyRole('ROLE_USER')">Aprobare</th>
+											<th sec:authorize="!hasAnyRole('ROLE_USER')">Respinge</th>
 											<th>Stergere</th>
 										</tr>
 										<tr th:if="${!req.approvalStatus}" th:each="req : ${requests}">
@@ -104,6 +105,8 @@ table tr th {
 											<td th:text="${req.issueDate}"></td>
 											<td><a sec:authorize="!hasAnyRole('ROLE_USER')" th:href="@{|/requests/${req.id}/approve|}"><i
 													class="glyphicon glyphicon-ok"></i></a></td>
+											<td><a sec:authorize="!hasAnyRole('ROLE_USER')" th:href="@{|/requests/${req.id}/reject|}"><i
+													class="glyphicon glyphicon-remove"></i></a></td>
 											<td><a th:href="@{|/requests/${req.id}/remove|}"><i
 													class="glyphicon glyphicon-trash"></i></a></td>
 										</tr>
@@ -113,6 +116,33 @@ table tr th {
 							<p th:if="${#sets.isEmpty(requests)}">
 								<i>Nicio cerere inregistrata</i>
 							</p>
+							
+							<h4>
+								<i class="glyphicon glyphicon-home"></i> Autorizatii respinse
+							</h4>
+							<div th:if="${!#sets.isEmpty(requests)}">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>Numar cerere</th>
+											<th>Tip</th>
+											<th>Solicitant</th>
+											<th>Data crearii</th>
+											<th>Stergere</th>
+										</tr>
+										<tr th:if="${req.rejected}" th:each="req : ${requests}">
+											<td>#<span th:text="${req.id}"></span></td>
+											<td><a th:text="${req.type.description}"
+												th:href="@{|/requests/${req.id}|}"></a></td>
+											<td th:text="${req.numeSolicitant}"></td>
+											<td th:text="${req.issueDate}"></td>
+											<td><a 
+												th:href="@{|/requests/${req.id}/remove|}"><i
+													class="glyphicon glyphicon-trash"></i></a></td>
+										</tr>
+									</thead>
+								</table>
+							</div>
 						</div>
 					</div>
 					<div class="tab-pane" id="tab_default_2">
@@ -123,39 +153,94 @@ table tr th {
 							<table class="table">
 								<thead>
 									<tr>
-										<th>Check-in</th>
-										<th>Check-out</th>
-										<th>Hotel</th>
-										<th>Room Type</th>
-										<th>Room Number</th>
-										<th></th>
+										<th>Numar solicitare</th>
+										<th>Solicitant</th>
+										<th>Data crearii</th>
+										<th>Persoana in audienta</th>
+										<th>Motivul audientei</th>
+										<th>Stergere</th>
+									</tr>
+									<tr th:if="${aud.approvalStatus}" th:each="aud : ${audiences}">
+										<td>#<span th:text="${aud.id}"></span></td>
+										<td th:text="${aud.issuerName}"></td>
+										<td th:text="${aud.issueDate}"></td>
+										<td th:text="${aud.person}"></td>
+										<td th:text="${aud.reason}"></td>
+										<td><a 
+											th:href="@{|/audiences/${aud.id}/remove|}"><i
+												class="glyphicon glyphicon-trash"></i></a></td>
 									</tr>
 								</thead>
 							</table>
 						</div>
 						<p th:if="${#lists.isEmpty(audiences)}">
-							<i>No audiences</i>
+							<i>Nicio audienta aprobata</i>
 						</p>
 
 						<h4>
 							<i class="glyphicon glyphicon-th-list"></i> Solicitari in asteptare
 						</h4>
-						<div th:if="${!#lists.isEmpty(audiences)}">
+						<div th:if="${!#sets.isEmpty(audiences)}">
 							<table class="table">
 								<thead>
 									<tr>
-										<th>Check-in</th>
-										<th>Check-out</th>
-										<th>Hotel</th>
-										<th>Room Type</th>
-										<th>Room Number</th>
-										<th></th>
+										<th>Numar solicitare</th>
+										<th>Solicitant</th>
+										<th>Data crearii</th>
+										<th>Persoana in audienta</th>
+										<th>Motivul audientei</th>
+										<th sec:authorize="!hasAnyRole('ROLE_USER')">Aprobare</th>
+										<th sec:authorize="!hasAnyRole('ROLE_USER')">Respinge</th>
+										<th>Stergere</th>
+									</tr>
+									<tr th:if="${!aud.approvalStatus}" th:each="aud : ${audiences}">
+										<td>#<span th:text="${aud.id}"></span></td>
+										<td th:text="${aud.issuerName}"></td>
+										<td th:text="${aud.issueDate}"></td>
+										<td th:text="${aud.person}"></td>
+										<td th:text="${aud.reason}"></td>
+										<td><a sec:authorize="!hasAnyRole('ROLE_USER')" th:href="@{|/audiences/${aud.id}/approve|}"><i
+												class="glyphicon glyphicon-ok"></i></a></td>
+										<td><a sec:authorize="!hasAnyRole('ROLE_USER')" th:href="@{|/audiences/${aud.id}/reject|}"><i
+												class="glyphicon glyphicon-trash"></i></a></td>
+										<td><a th:href="@{|/audiences/${aud.id}/remove|}"><i
+												class="glyphicon glyphicon-trash"></i></a></td>
+									</tr>
+								</thead>
+							</table>
+						</div>
+						<p th:if="${#sets.isEmpty(audiences)}">
+							<i>Nicio solicitare inregistrata</i>
+						</p>
+						
+						<h4>
+							<i class="glyphicon glyphicon-th-list"></i> Audiente respinse
+						</h4>
+						<div th:if="${!#sets.isEmpty(audiences)}">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Numar solicitare</th>
+										<th>Solicitant</th>
+										<th>Data crearii</th>
+										<th>Persoana in audienta</th>
+										<th>Motivul audientei</th>
+										<th>Stergere</th>
+									</tr>
+									<tr th:if="${aud.rejected}" th:each="aud : ${audiences}">
+										<td>#<span th:text="${aud.id}"></span></td>
+										<td th:text="${aud.issuerName}"></td>
+										<td th:text="${aud.issueDate}"></td>
+										<td th:text="${aud.person}"></td>
+										<td th:text="${aud.reason}"></td>
+										<td><a th:href="@{|/audiences/${aud.id}/remove|}"><i
+												class="glyphicon glyphicon-trash"></i></a></td>
 									</tr>
 								</thead>
 							</table>
 						</div>
 						<p th:if="${#lists.isEmpty(audiences)}">
-							<i>Nicio solicitare inregistrata</i>
+							<i>Nicio audienta respinsa</i>
 						</p>
 					</div>
 				</div>

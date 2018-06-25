@@ -47,14 +47,39 @@ public class AudienceController {
      */
 	@RequestMapping(method=RequestMethod.POST)
 	public String onSaveRequest(@ModelAttribute Audience audience, Model model) {
-		Date date = new Date();
 		audience.setUser(getCurrentUser());
-		audience.setIssueDate(date);
 		audience.setApprovalDate(null);
 		audience.setApprovalStatus(false);
+		audience.setIssuerName(getCurrentUser().getName());
 		audiences.save(audience);
 		model.addAttribute("audience", audience);
 		return "redirect:/audiences";
+	}
+	
+	@RequestMapping(value = "{id}/approve", method = RequestMethod.GET)
+	public String onApproveRequest(@PathVariable("id") long id, Model model)
+	{
+		Date approvalDate = new Date();
+		Audience audience = audiences.findOne(id);
+		if(audience == null)
+			throw new RequestNotFoundException();
+		audience.setApprovalStatus(true);
+		audience.setApprovalDate(approvalDate);
+		audiences.save(audience);
+		model.addAttribute("audiences", audiences.findAll());
+		return "redirect:/users/me";
+	}
+	
+	@RequestMapping(value = "{id}/reject", method = RequestMethod.GET)
+	public String onRejectRequest(@PathVariable("id") long id, Model model)
+	{
+		Audience audience = audiences.findOne(id);
+		if(audience == null)
+			throw new RequestNotFoundException();
+		audience.setReject(true);
+		audiences.save(audience);
+		model.addAttribute("requests", audiences.findAll());
+		return "redirect:/users/me";
 	}
 	
 	@RequestMapping(value="{id}/remove", method=RequestMethod.GET)

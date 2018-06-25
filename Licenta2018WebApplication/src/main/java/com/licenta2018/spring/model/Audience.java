@@ -17,6 +17,9 @@ public class Audience {
 	private Date issueDate;
 	private Date approvalDate;
 	private boolean approvalStatus;
+	private boolean rejected;
+	private String person;
+	private String issuerName;
 	
 	private String reason;
 	
@@ -69,5 +72,30 @@ public class Audience {
 
 	public void setReason(String reason) {
 		this.reason = reason;
+	}
+	
+	public boolean isRejected()
+	{
+		return rejected;
+	}
+
+	public void setReject(boolean b) {
+		this.rejected = b;	
+	}
+
+	public String getPerson() {
+		return person;
+	}
+
+	public void setPerson(String person) {
+		this.person = person;
+	}
+
+	public String getIssuerName() {
+		return issuerName;
+	}
+
+	public void setIssuerName(String issuerName) {
+		this.issuerName = issuerName;
 	}
 }

@@ -4,9 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.licenta2018.spring.model.CustomUserDetail;
 import com.licenta2018.spring.model.Request;
@@ -105,13 +101,25 @@ public class RequestController {
 		return "redirect:/users/me";
 	}
 	
+	@RequestMapping(value = "{id}/reject", method = RequestMethod.GET)
+	public String onRejectRequest(@PathVariable("id") long id, Model model)
+	{
+		Request request = requests.findOne(id);
+		if(request == null)
+			throw new RequestNotFoundException();
+		request.setReject(true);
+		requests.save(request);
+		model.addAttribute("requests", requests.findAll());
+		return "redirect:/users/me";
+	}
+	
 	@RequestMapping(value = "{id}/download/request", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<InputStreamResource> citiesReport(@PathVariable("id") long id) throws IOException {
+    public ResponseEntity<InputStreamResource> onRequestPdfReport(@PathVariable("id") long id) throws IOException {
 
         Request request = requests.findOne(id);
 
-        ByteArrayInputStream bis = PdfRequestView.citiesReport(getCurrentUser(), request);
+        ByteArrayInputStream bis = PdfRequestView.generatePdf(getCurrentUser(), request);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=request.pdf");

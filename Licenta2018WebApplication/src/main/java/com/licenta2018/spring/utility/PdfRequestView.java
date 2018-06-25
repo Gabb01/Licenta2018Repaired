@@ -19,7 +19,7 @@ import com.lowagie.text.pdf.PdfWriter;
 
 public class PdfRequestView {
 
-	public static ByteArrayInputStream citiesReport(User user, Request request)
+	public static ByteArrayInputStream generatePdf(User user, Request request)
 	{
 		Document document = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();

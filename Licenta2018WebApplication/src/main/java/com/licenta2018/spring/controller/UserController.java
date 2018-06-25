@@ -107,7 +107,7 @@ public class UserController {
 		while(audiencesIterator.hasNext())
 		{
 			Audience b = audiencesIterator.next();
-			if(b.getUser().getId() == user_id)
+			if(b.getUser().getId() == user_id || user_id == 5)
 				audiencesList.add(b);
 		}
 
